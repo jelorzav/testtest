@@ -1,6 +1,6 @@
 {
     "appSecret": "",
-    "pageAccessToken": "https://github.com/jelorzav/testtest.git",
+    "pageAccessToken": "",
     "validationToken": "holacaracola1",
-    "serverURL": ""
+    "serverURL": "https://github.com/jelorzav/testtest.git"
 }

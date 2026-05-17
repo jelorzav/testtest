@@ -1,36 +1,58 @@
-# Messenger Platform Sample -- node.js
+# Influencer Saturation Map Madrid
 
-This project is an example server for Messenger Platform built in Node.js. With this app, you can send it messages and it will echo them back to you. You can also see examples of the different types of Structured Messages. 
+A clean, modern Next.js App Router dashboard for mapping Madrid restaurants and estimating whether they have been "conquered" by influencer attention on TikTok and Instagram.
 
-It contains the following functionality:
+## Stack
 
-* Webhook (specifically for Messenger Platform events)
-* Send API 
-* Web Plugins
-* Messenger Platform v1.1 features
+- Next.js App Router
+- TypeScript
+- Tailwind CSS
+- Supabase/Postgres schema stub
+- Mapbox GL JS map with a tokenless Madrid fallback map
+- Recharts trend and platform charts
 
-Follow the [walk-through](https://developers.facebook.com/docs/messenger-platform/quickstart) to learn about this project in more detail.
+## Features
 
-## Setup
+- Madrid restaurant dashboard with 20 seeded restaurants.
+- Risk-colored markers: Low, Emerging, High, and Conquered.
+- Filters for cuisine, price level, platform, and risk level.
+- Restaurant detail pages with score, chart trends, metrics breakdown, and score explanation.
+- Mock social metrics for TikTok and Instagram.
+- Abstract ingestion layer so live TikTok/Instagram provider adapters can replace the mock source later.
+- Supabase SQL schema for restaurants, social metrics, and risk assessments.
 
-Set the values in `config/default.json` before running the sample. Descriptions of each parameter can be found in `app.js`. Alternatively, you can set the corresponding environment variables as defined in `app.js`.
+## Scoring model
 
-Replace values for `APP_ID` and `PAGE_ID` in `public/index.html`.
+The scoring function combines:
 
-## Run
+1. Post volume
+2. Engagement rate
+3. Creator count
+4. Recent growth from posts in the last 7 and 30 days
+5. Mega-creator concentration
 
-You can start the server by running `npm start`. However, the webhook must be at a public URL that the Facebook servers can reach. Therefore, running the server locally on your machine will not work.
+Scores are normalized to 0-100 and labeled:
 
-You can run this example on a cloud service provider like Heroku, Google Cloud Platform or AWS. Note that webhooks must have a valid SSL certificate, signed by a certificate authority. Read more about setting up SSL for a [Webhook](https://developers.facebook.com/docs/graph-api/webhooks#setup).
+- Low: 0-34
+- Emerging: 35-57
+- High: 58-77
+- Conquered: 78-100
 
-## Webhook
+## Getting started
 
-All webhook code is in `app.js`. It is routed to `/webhook`. This project handles callbacks for authentication, messages, delivery confirmation and postbacks. More details are available at the [reference docs](https://developers.facebook.com/docs/messenger-platform/webhook-reference).
+```bash
+npm install
+npm run dev
+```
 
-## "Send to Messenger" and "Message Us" Plugin
+Open http://localhost:3000.
 
-An example of the "Send to Messenger" plugin and "Message Us" plugin are located at `index.html`. The "Send to Messenger" plugin can be used to trigger an authentication event. More details are available at the [reference docs](https://developers.facebook.com/docs/messenger-platform/plugin-reference).
+Mapbox is optional for local review. Without `NEXT_PUBLIC_MAPBOX_TOKEN`, the app shows a stylized Madrid fallback map. To enable Mapbox, add:
 
-## License
+```bash
+NEXT_PUBLIC_MAPBOX_TOKEN=your_token
+```
 
-See the LICENSE file in the root directory of this source tree. Feel free to useand modify the code.
+## Supabase
+
+The schema is in `supabase/schema.sql`. The app uses the mock ingestion source by default; wire Supabase reads into `lib/ingestion/social-source.ts` when real data ingestion is ready.

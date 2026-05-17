@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  color-scheme: light;
+  background: #f7f4ef;
+}
+
+body {
+  margin: 0;
+  color: #101828;
+  background:
+    radial-gradient(circle at top left, rgba(255, 183, 3, 0.22), transparent 30rem),
+    linear-gradient(135deg, #fffaf0 0%, #f6f7fb 45%, #eef4ff 100%);
+}
+
+.mapboxgl-popup-content {
+  border-radius: 1rem;
+  box-shadow: 0 20px 60px rgba(16, 24, 40, 0.16);
+  padding: 0;
+  overflow: hidden;
+}
